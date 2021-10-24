@@ -6,6 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm i`
+### `create .env file and copy of .env.example to .env file`
 ### `yarn start`
 
 Runs the app in the development mode.\
