@@ -5,6 +5,7 @@ const Covid = React.lazy(()=> import('../views/covid'));
 const Indonesia = React.lazy(()=> import('../views/indonesia'));
 const Programing = React.lazy(()=> import('../views/programing'));
 const Saved = React.lazy(()=> import('../views/saved'));
+const DetailNews = React.lazy(()=> import('../views/detailNews'));
 
 const routes = [
     {
@@ -36,6 +37,12 @@ const routes = [
         name : 'Save',
         exact:true,
         component : Saved
+    },
+    {
+        path: '/detail/:title',
+        name : 'Detail',
+        exact:true,
+        component : DetailNews
     },
 ];
 
