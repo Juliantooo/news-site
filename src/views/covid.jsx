@@ -1,36 +1,19 @@
-import React, {useState, useEffect } from "react"
-import { http } from "../service/http"
 import { COVID_19 } from "../service/api_path"
 import NewsCard from "../components/newsCard";
 import Skeleton from "../components/skeleton";
 import NewsSideCard from "../components/newsSideCard";
+import {NewsHooks} from '../libs/helpers/hooks'
+import { dateParser } from "../libs/helpers/date";
 
 const Covid = () => {
-    const [headlineNews, setHeadlineNews] = useState([]);
-    const [newstNews, setNewstNews] = useState([]);
+    const {newsData,headlineNews} = NewsHooks({method:'get',url:COVID_19});
 
-    const fetchData = async()=>{
-        const response = await http('get',COVID_19);
-        
-        setNewstNews(response.data);
-        const headlineNews = response.data.filter((data,idx) => {
-            if(idx<5&&idx>0){
-                return data;
-            }
-            return false;
-        })
-        setHeadlineNews(headlineNews);
-    }
 
     const clickSave=(title)=>{
         console.log('clicked')
     //      selectedNews = newsData.find((news)=> news.title===title)
     //     //panggil store buat dispatch ('ADD_SAVED_NEWS',selectedNews);
     }
-
-    useEffect(()=>{
-        fetchData();
-    },[]);
 
     return (
         <div>
@@ -39,8 +22,8 @@ const Covid = () => {
             <section className="mx-2 flex flex-row flex-wrap">
                 <div className="newst-news w-full lg:w-2/3 space-y-2 mt-5 p-3">
                     {
-                        newstNews.length > 0 ?
-                        newstNews.map((news,idx)=> <NewsCard key={idx} published={news.publishedAt} title={news.title} category="Berita Terkini" image={news.urlToImage} clickSave={clickSave} />)
+                        newsData.length > 0 ?
+                        newsData.map((news,idx)=> <NewsCard key={idx} published={dateParser(news.publishedAt)} title={news.title} category="Berita Terkini" image={news.urlToImage} clickSave={clickSave} />)
                         :
                         <div className="space-y-5 mt-5">
                             <Skeleton/>

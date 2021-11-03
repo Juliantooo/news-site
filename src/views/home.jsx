@@ -1,10 +1,10 @@
-import React, {useState, useEffect } from "react"
-import { http } from "../service/http"
 import { TOP_HEADLINES } from "../service/api_path"
 import Slider from "react-slick";
 import NewsCard from "../components/newsCard";
 import Skeleton from "../components/skeleton";
 import NewsSideCard from "../components/newsSideCard";
+import {NewsHooks} from '../libs/helpers/hooks'
+import { dateParser } from "../libs/helpers/date";
 
 const settings = {
     dots: true,
@@ -24,22 +24,7 @@ const settings = {
   };
 
 const Home = () => {
-    const [headlineNews, setHeadlineNews] = useState([]);
-    const [newstNews, setNewstNews] = useState([]);
-    const fetchData = async()=>{
-        const response = await http('get',TOP_HEADLINES);
-        setNewstNews(response.data)
-        const headlineNews = response.data.filter((data,idx) => {
-            if(idx<5&&idx>0){
-                return data;
-            }
-            return false;
-        })
-        setHeadlineNews(headlineNews);
-    }
-    useEffect(()=>{
-        fetchData();
-    },[]);
+    const {newsData,headlineNews} = NewsHooks({method:'get',url:TOP_HEADLINES});
 
     return (
         <div>
@@ -51,7 +36,7 @@ const Home = () => {
                                 <img src={news.urlToImage} alt="headline-news" className="w-full h-60 md:h-80 lg:h-96" />
                                 <div className="bg-gray-900 bg-opacity-60 w-full h-26 absolute bottom-0 z-10 p-4 space-y-3">
                                     <p className="text-sm lg:text-xl font-semibold">{news.title}</p>
-                                    <p className="text-xs lg:text-small">{news.publishedAt}</p>
+                                    <p className="text-xs lg:text-small">{dateParser(news.publishedAt)}</p>
                                 </div>
                             </div>
                         )
@@ -63,8 +48,8 @@ const Home = () => {
             <section className="mx-2 flex flex-row flex-wrap">
                 <div className="newst-news w-full lg:w-2/3 space-y-2 mt-5 p-3">
                     {
-                        newstNews.length > 0 ?
-                        newstNews.map((news,idx)=> <NewsCard key={idx} published={news.publishedAt} title={news.title} category="Berita Terkini" image={news.urlToImage} />)
+                        newsData.length > 0 ?
+                        newsData.map((news,idx)=> <NewsCard key={idx} published={dateParser(news.publishedAt)} title={news.title} category="Berita Terkini" image={news.urlToImage} />)
                         :
                         <div className="space-y-5 mt-5">
                             <Skeleton/>
