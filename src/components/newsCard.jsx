@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewsCard = ({image,title,category,published,clickSave}) => {
+const NewsCard = ({ image, title, category, published, clickSave }) => {
     return (
         <div className="w-full p-2 flex flex-col md:flex-row md:space-x-4 bg-gray-600 bg-opacity-20 cursor-pointer hover:bg-opacity-50">
             <img src={image} alt="news" className="h-32 w-full md:w-48 object-cover" />
@@ -11,6 +11,7 @@ const NewsCard = ({image,title,category,published,clickSave}) => {
                     <span className="text-xs">{published}</span>
                 </div>
             </div>
+            <button>Save News</button>
             {/* tombol save onclick={clickSave(title)} */}
         </div>
     )
