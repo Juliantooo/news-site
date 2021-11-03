@@ -11,7 +11,7 @@ export const Default = ({children}) => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-600 text-gray-200">
+        <div className="min-h-screen bg-gray-900 text-gray-200">
             {
                 isSideBarOpen && <SideNav onSidebarToogle={handleSideBarToggle}/>
             }
