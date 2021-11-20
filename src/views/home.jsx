@@ -1,34 +1,41 @@
 import { TOP_HEADLINES } from "../service/api_path"
 import Slider from "react-slick";
-import NewsCard from "../components/newsCard";
-import Skeleton from "../components/skeleton";
-import NewsSideCard from "../components/newsSideCard";
-import {NewsHooks} from '../libs/helpers/hooks'
-import { dateParser } from "../libs/helpers/date";
-
-const settings = {
-    dots: true,
-    infinite: true,
-    speed: 400,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4500,
-    cssEase: "linear",
-    pauseOnHover: true,
-    arrows: false,
-    className: "slider px-2 cursor-pointer",
-    customPaging: () => (
-        <span className="w-6 h-1.5 bg-red-500 absolute bottom-8 cursor-pointer hover:bg-red-600"></span>
-    )
-  };
+import {NewsHooks} from '../libs/hooks'
+import { dateParser } from "../libs/date";
+import { useHistory } from "react-router-dom";
+import { reactSlickSettings } from "../libs/reactSlick";
+import { useDispatch, useSelector } from 'react-redux'
+import { SET_DETAIL_NEWS } from "../store/slicers/detailNewsSlicer";
+import { ADD_SAVED_NEWS, SET_SAVED_NEWS} from "../store/slicers/savedNewsSlicer";
+import { news } from "../libs/helpers";
+import { NewsCard, NewsSideCard, Skeleton } from "../components";
 
 const Home = () => {
-    const {newsData,headlineNews} = NewsHooks({method:'get',url:TOP_HEADLINES});
+    const {newsData,headlineNews,loading} = NewsHooks({method:'get',url:TOP_HEADLINES});
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const savedNews = useSelector((state)=> state.savedNewsSlicer.savedNews);
+
+    const handleClick=(title)=>{
+        dispatch(SET_DETAIL_NEWS(news(newsData,title)));
+        history.push(`detail/${title}`);
+    }
+
+    const handleClickCardButton = (title) => {
+        if(isNewsSaved(title)){
+            const filteredNews = savedNews.filter((news)=> news.title !== title);
+            return dispatch(SET_SAVED_NEWS(filteredNews));
+        }
+        return dispatch(ADD_SAVED_NEWS(news(newsData,title)));
+    }
+
+    const isNewsSaved = (title) => {
+        return savedNews.some((news)=> news.title === title);
+    }
 
     return (
         <div>
-            <Slider {...settings}>
+            <Slider {...reactSlickSettings}>
                 {
                     headlineNews&&headlineNews.map((news,idx)=>{
                         return(
@@ -48,16 +55,21 @@ const Home = () => {
             <section className="mx-2 flex flex-row flex-wrap">
                 <div className="newst-news w-full lg:w-2/3 space-y-2 mt-5 p-3">
                     {
-                        newsData.length > 0 ?
-                        newsData.map((news,idx)=> <NewsCard key={idx} published={dateParser(news.publishedAt)} title={news.title} category="Berita Terkini" image={news.urlToImage} />)
+                        newsData.length > 0 && !loading ?
+                        newsData.map((news,idx)=> 
+                            <NewsCard 
+                                key={idx} 
+                                published={dateParser(news.publishedAt)} 
+                                title={news.title} 
+                                category="Berita Terkini" 
+                                image={news.urlToImage} 
+                                onClickCard={handleClick}
+                                onClickCardButton={handleClickCardButton}
+                                isNewsSaved={isNewsSaved}
+                            />)
                         :
                         <div className="space-y-5 mt-5">
-                            <Skeleton/>
-                            <Skeleton/>
-                            <Skeleton/>
-                            <Skeleton/>
-                            <Skeleton/>
-                            <Skeleton/>
+                            <Skeleton length={8} />
                         </div>
                     }
                 </div>
@@ -65,15 +77,17 @@ const Home = () => {
                     <h1 className="text-2xl font-bold my-3">Trending</h1>
                     <div className="space-y-2">
                         {
-                            headlineNews.length > 0?
-                            headlineNews.map((news,idx)=> <NewsSideCard key={idx}  title={news.title} category="Trending" image={news.urlToImage} />)
+                            headlineNews.length > 0 && !loading?
+                            headlineNews.map((news,idx)=> 
+                                <NewsSideCard 
+                                    key={idx}  
+                                    title={news.title} 
+                                    category="Trending" 
+                                    image={news.urlToImage} 
+                                    onClickCard={handleClick} 
+                            />)
                             :
                             <div className="space-y-5 mt-5">
-                                <Skeleton/>
-                                <Skeleton/>
-                                <Skeleton/>
-                                <Skeleton/>
-                                <Skeleton/>
                                 <Skeleton/>
                             </div>
                         }
