@@ -17,19 +17,20 @@ function App() {
   return (
     <Router>
       <Suspense fallback={loading}>
-        <Switch>
-          <Default>
-            {
-              routes.map((route,idx)=>{
-                return (
-                    route.component && (
-                      <Route exact={route.exact} key={idx} path={route.path} name={route.name} render={props => <route.component {...props} />}/>
+        <Default>
+          <Switch>
+              {
+                routes.map((route,idx)=>{
+                  return (
+                      route.component && (
+                        <Route 
+                          exact={route.exact} key={idx} path={route.path} name={route.name} render={props => <route.component {...props} />}/>
+                      )
                     )
-                  )
-              })
-            }
-          </Default>
-        </Switch>
+                })
+              }
+          </Switch>
+        </Default>
       </Suspense>
     </Router>
   );
