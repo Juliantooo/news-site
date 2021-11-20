@@ -1,39 +1,39 @@
-import React from 'react'
-import dummy from '../assets/images/xuner.png'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router';
+import { dateParser } from '../libs/date';
+
 
 const DetailNews = () => {
+    const detailNews = useSelector((state)=> state.detailNewsSlicer.detailNews || []);
+    const history = useHistory();
+
+    useEffect(()=>{
+        if(Object.keys(detailNews).length === 0) history.replace({pathname:'/404'})
+    },[])
+
     return (
         <div className="space-y-5">
-            <img src={dummy} alt="detail" className="w-full h-96 top-10 right-0" />
+            <img src={detailNews.urlToImage} alt="detail" className="w-full h-96 top-10 right-0" />
             <div className="news-detail space-y-10 w-2/3 m-auto">
                 <div className="space-y-2">
-                    <h1 className="text-2xl font-bold">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor modi, veritatis quas, hic saepe, ad ut eveniet ratione autem deserunt et vel</h1>
-                    <div><span className="text-red-500">Kategori</span> | <span className="text-xs">03 November 2021</span></div>
+                    <h1 className="text-2xl font-bold">{detailNews.title}</h1>
+                    <div>
+                        <span className="text-red-500">{detailNews.author}</span> | 
+                        <span className="text-xs">{detailNews.publishedAt ? dateParser(detailNews.publishedAt) : '-'}</span>
+                    </div>
                     <hr />
                 </div>
                 <article className="text-lg">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Totam ex eaque odio ea non ad magnam maiores reprehenderit minima ipsa eligendi voluptates at doloribus rem eum, consequatur aliquam. Temporibus, sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quis ipsa, veniam a ipsum assumenda quibusdam harum modi, debitis illum, et facere ex perferendis voluptates. Autem suscipit quis illo animi?
-                    <br /><br />
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, doloribus soluta voluptates sit numquam cumque laboriosam dolorum, amet saepe maiores magni aliquam id vero ab nihil labore cupiditate eum sequi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, eveniet officia error consequatur est culpa architecto omnis commodi repudiandae veritatis saepe, debitis deserunt quae illum expedita perspiciatis rerum. Sit, minima.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit nam corporis laborum fuga doloremque, quidem fugit dignissimos saepe, iste ipsam qui temporibus blanditiis. Repudiandae iusto quidem corporis quibusdam assumenda iste?
-                    <br /><br />
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ut dicta dolores recusandae ad similique perspiciatis blanditiis voluptas laborum? Accusantium quidem voluptatibus nisi cum nesciunt consectetur magni rerum ad asperiores.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam inventore illum perferendis possimus eaque odit laboriosam culpa, fugit laudantium, necessitatibus placeat quam ab maiores optio minima at. Officiis, a doloribus.
-                    <br/> <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit nam corporis laborum fuga doloremque, quidem fugit dignissimos saepe, iste ipsam qui temporibus blanditiis. Repudiandae iusto quidem corporis quibusdam assumenda iste?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ut dicta dolores recusandae ad similique perspiciatis blanditiis voluptas laborum? Accusantium quidem voluptatibus nisi cum nesciunt consectetur magni rerum ad asperiores.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam inventore illum perferendis possimus eaque odit laboriosam culpa, fugit laudantium, necessitatibus placeat quam ab maiores optio minima at. Officiis, a doloribus.
+                    {detailNews.content}
+                    <br /> <br />
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus alias est ex ullam, debitis rem quas dolores non praesentium hic? Architecto odit ipsa, repellendus laudantium enim atque facere id quas?
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repudiandae assumenda iusto velit molestias quia. Porro laudantium consectetur odit est totam quasi fugiat libero debitis quis, soluta saepe illum ea at?
                     <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit nam corporis laborum fuga doloremque, quidem fugit dignissimos saepe, iste ipsam qui temporibus blanditiis. Repudiandae iusto quidem corporis quibusdam assumenda iste?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ut dicta dolores recusandae ad similique perspiciatis blanditiis voluptas laborum? Accusantium quidem voluptatibus nisi cum nesciunt consectetur magni rerum ad asperiores.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam inventore illum perferendis possimus eaque odit laboriosam culpa, fugit laudantium, necessitatibus placeat quam ab maiores optio minima at. Officiis, a doloribus.
-                    <br/><br />
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam inventore illum perferendis possimus eaque odit laboriosam culpa, fugit laudantium, necessitatibus placeat quam ab maiores optio minima at. Officiis, a doloribus.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit nam corporis laborum fuga doloremque, quidem fugit dignissimos saepe, iste ipsam qui temporibus blanditiis. Repudiandae iusto quidem corporis quibusdam assumenda iste?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero ut dicta dolores recusandae ad similique perspiciatis blanditiis voluptas laborum? Accusantium quidem voluptatibus nisi cum nesciunt consectetur magni rerum ad asperiores.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam inventore illum perferendis possimus eaque odit laboriosam culpa, fugit laudantium, necessitatibus placeat quam ab maiores optio minima at. Officiis, a doloribus.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum tenetur amet vitae quam doloribus consequatur porro maxime sapiente magnam, a, hic inventore? Dicta, commodi nobis ab earum magnam laboriosam doloremque.
+                    <br /><br />
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam at, omnis esse laboriosam quae vel assumenda minus cupiditate similique! Sed recusandae ipsam consequuntur nobis saepe? Ipsa iste consequuntur porro debitis!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi temporibus provident incidunt quasi dignissimos veniam in tempora minus saepe labore. Placeat tempore sed commodi possimus quia! Dolores delectus sed voluptatum!
                 </article>
             </div>
         </div>
