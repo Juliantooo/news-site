@@ -3,7 +3,7 @@ import { Link,useHistory } from 'react-router-dom'
 import closeIcon from '../assets/images/close_img.svg'
 import logo from '../assets/images/logo gnews.png'
 
-export const SideNav = ({onSidebarToogle}) => {
+const SideNav = ({onSidebarToogle}) => {
   const history = useHistory();
 
   const handleClick = () =>{
@@ -12,7 +12,7 @@ export const SideNav = ({onSidebarToogle}) => {
   }
 
     return (
-        <nav className="h-screen w-full bg-gray-800 text-white space-y-10 px-5 font-semibold flex flex-col z-20 fixed top-0">
+        <nav className="h-screen w-full bg-gray-800 text-white space-y-10 px-5 font-semibold flex flex-col z-20 fixed top-0  tracking-wide">
           <div className="flex flex-row justify-between items-center mt-3">
             <img onClick={handleClick} src={logo} alt="site-logo" className="cursor-pointer w-12 h-10 rounded-full" />
             <img
@@ -29,3 +29,5 @@ export const SideNav = ({onSidebarToogle}) => {
         </nav>
     )
 }
+
+export default SideNav;
