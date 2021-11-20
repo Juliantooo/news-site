@@ -6,43 +6,48 @@ const Indonesia = React.lazy(()=> import('../views/indonesia'));
 const Programing = React.lazy(()=> import('../views/programing'));
 const Saved = React.lazy(()=> import('../views/saved'));
 const DetailNews = React.lazy(()=> import('../views/detailNews'));
+const Search = React.lazy(()=> import('../views/search'));
+const NotFound = React.lazy(()=> import('../views/404'));
 
 const routes = [
     {
         path: '/',
         name : 'Home',
-        exact:true,
-        component : Home
+        component : Home,
+        exact : true
+    },
+    {
+        path: '/saved',
+        name : 'Saved',
+        component : Saved,
     },
     {
         path: '/programing',
         name : 'Programing',
-        exact:true,
-        component : Programing
+        component : Programing,
     },
     {
         path: '/indonesia',
         name : 'Indonesia',
-        exact:true,
-        component : Indonesia
+        component : Indonesia,
     },
     {
         path: '/covid',
         name : 'Covid',
-        exact:true,
-        component : Covid
+        component : Covid,
     },
     {
-        path: '/saved',
-        name : 'Save',
-        exact:true,
-        component : Saved
+        path: '/search',
+        name : 'Search',
+        component : Search,
     },
     {
         path: '/detail/:title',
         name : 'Detail',
-        exact:true,
-        component : DetailNews
+        component : DetailNews,
+    },
+    {
+        component : NotFound,
     },
 ];
 
