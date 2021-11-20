@@ -12,7 +12,7 @@ const parseResponse = (response)=>{
     }
 }
 
-export const http = (method, url) => new Promise((resolve, reject) => {
+export const http = (method, url) => new Promise((resolve) => {
   axios({
     method,
     url:`${baseUrl}${url}&apiKey=${apiKey}`,
@@ -20,9 +20,7 @@ export const http = (method, url) => new Promise((resolve, reject) => {
     .then((response) => {
       resolve(parseResponse(response));
     })
-    .catch((errors) => {
-      reject(errors);
+    .catch(() => {
+      window.location.replace('/404');
     });
 });
-
-
